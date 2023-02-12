@@ -11,6 +11,9 @@ void setup(){
 
     float rubixSize = cubiesSize*3;
     cam.setMinimumDistance(sqrt(rubixSize*rubixSize + rubixSize*rubixSize*2));
+
+    //We forbid panning, and instead we rotate
+    cam.setCenterDragHandler(cam.getRotateDragHandler());
 }
 
 void draw(){
