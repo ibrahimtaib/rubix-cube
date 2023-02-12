@@ -52,6 +52,6 @@ void keyPressed() {
 }
 
 void draw(){
-    background(0);
+    background(165);
     rub.show();
 }
