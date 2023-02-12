@@ -23,16 +23,21 @@ class Cubies{
     void turnZ(boolean clockwise){
         PVector coords = pos.getCoords();
         PMatrix3D transMatrix = new PMatrix3D();
-  
+        mat.reset();
+
         //We rotate relative to the center of the cube
-        transMatrix.rotateZ(HALF_PI * (clockwise?1:-1));
-        transMatrix.translate(coords.x, coords.y, coords.z);
+        mat.rotateZ(HALF_PI * (clockwise?1:-1));
+        //transMatrix.translate(coords.x, coords.y, coords.z);
 
         //Update index
         pos.turnZ(clockwise);
         //Update coords
-        pos.update(transMatrix.m03, transMatrix.m13, coords.z);
         //Fetch new coords
+        coords = pos.getCoords();
+
+        mat.translate(coords.x, coords.y, coords.z);
+        pos.update(mat.m03, mat.m13, coords.z);
+
         coords = pos.getCoords();
 
         mat.reset();
@@ -134,57 +139,86 @@ class Cubies{
         pushMatrix();
 
         applyMatrix(mat);
-       
+
         /* 
         ** We create a new shape
-        ** The new shape will be drawn in shapeMode center
+        ** The new shape will be drawn in shapeMode corner
         ** We first translate, and put vertex in a relative position
         */
-        float r = size/2;
         beginShape(QUADS);
 
+        float r = size/2;
+        
         //Front 
         fill(colors[Faces.FRONT]);
-        vertex(-r, -r, 0);
-        vertex(r, -r, 0);
-        vertex(r, r, 0);
-        vertex(-r, r, 0);
+        vertex(-r, -r,  r);
+        vertex(r, -r,   r);
+        vertex(r, r,    r);
+        vertex(-r, r,   r);
+        // vertex(0, 0, 0);
+        // vertex(size, 0, 0);
+        // vertex(size, size, 0);
+        // vertex(0, size, 0);
 
         fill(colors[Faces.RIGHT]);
         //Right
-        vertex(r, -r, 0);
-        vertex(r, -r, -2*r);
-        vertex(r, r, -2*r);
-        vertex(r, r, 0);
+        vertex(r, -r,   r);
+        vertex(r, -r, -r);
+        vertex(r, r, -r);
+        vertex(r, r, r);
+
+        // vertex(size, 0, 0);
+        // vertex(size, 0, -size);
+        // vertex(size, size, -size);
+        // vertex(size, size, 0);
 
         fill(colors[Faces.LEFT]);
 
         //Left
-        vertex(-r, -r, 0);
-        vertex(-r, -r, -2*r);
-        vertex(-r, r, -2*r);
-        vertex(-r, r, 0);
+        vertex(-r, -r, r);
+        vertex(-r, -r, -r);
+        vertex(-r, r, -r);
+        vertex(-r, r, r);
+
+        // vertex(0, 0, 0);
+        // vertex(0, 0, -size);
+        // vertex(0, size, -size);
+        // vertex(0, size, 0);
 
         fill(colors[Faces.BACK]);
         //Back 
-        vertex(-r, -r, -2*r);
-        vertex(r, -r, -2*r);
-        vertex(r, r, -2*r);
-        vertex(-r, r, -2*r);      
+        vertex(-r, -r, -r);
+        vertex(r, -r, -r);
+        vertex(r, r, -r);
+        vertex(-r, r, -r);      
 
+        // vertex(0, 0, -size);
+        // vertex(size, 0, -size);
+        // vertex(size, size, -size);
+        // vertex(0, size, -size);
         fill(colors[Faces.UP]);
         //Up
-        vertex(-r, -r, 0);
-        vertex(-r, -r, -2*r);
-        vertex(r, -r, -2*r);
-        vertex(r, -r, 0);
+        vertex(-r, -r, r);
+        vertex(-r, -r, -r);
+        vertex(r, -r, -r);
+        vertex(r, -r, r);
+
+        // vertex(0, 0, 0);
+        // vertex(0, 0, -size);
+        // vertex(size, 0, -size);
+        // vertex(size, 0, 0);
 
         fill(colors[Faces.BOTTOM]);
         //Bottom
-        vertex(r, r, 0);
-        vertex(r, r, -2*r);
-        vertex(-r, r, -2*r);
-        vertex(-r, r, 0);
+        vertex(r, r, r);
+        vertex(r, r, -r);
+        vertex(-r, r, -r);
+        vertex(-r, r, r);
+
+        // vertex(0, size, 0);
+        // vertex(0, size, -size);
+        // vertex(size, size, -size);
+        // vertex(size, size, 0);
 
         endShape(QUADS);
 
