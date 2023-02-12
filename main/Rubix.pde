@@ -12,17 +12,30 @@ class Rubix{
         for (int i = 0; i < nbCubies; ++i) {
             for (int j = 0; j < nbCubies; ++j) {
                 for (int k = 0; k < nbCubies; ++k) {  
-                    cubies[i*nbCubies*nbCubies + j*nbCubies + k] = new Cubies(i, j, k, cubiesSize);
+                    cubies[i*nbCubies*nbCubies + j*nbCubies + k] = new Cubies(i, j, k, cubiesSize, nbCubies);
                 }
             }
         }      
     }
 
+    void turnZ(int index, boolean clockwise){
+
+        for (int i = 0; i < nbCubies; ++i) {
+            for (int j = 0; j < nbCubies; ++j) {
+                for (int k = 0; k < nbCubies; ++k) {  
+                    Cubies qb = cubies[i*nbCubies*nbCubies + j*nbCubies + k]; 
+                    if(qb.getZIndex() == index) {
+                        qb.turnZ(clockwise);
+                    }
+                }
+            }
+        }      
+    }
     void show() {
         for (int i = 0; i < nbCubies; ++i) {
             for (int j = 0; j < nbCubies; ++j) {
                 for (int k = 0; k < nbCubies; ++k) {
-                    cubies[i*nbCubies*nbCubies + j*nbCubies + k].show(255);
+                    cubies[i*nbCubies*nbCubies + j*nbCubies + k].show();
                 }
             }
         }  
