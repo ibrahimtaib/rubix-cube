@@ -27,7 +27,7 @@ class Cubies{
         transMatrix.rotateZ(HALF_PI * (clockwise?1:-1));
 
         //Update index
-        pos.turnZ();
+        pos.turnZ(clockwise);
         //Update coords
         pos.update(transMatrix.m03, transMatrix.m13, coords.z);
         
@@ -57,6 +57,43 @@ class Cubies{
 
     }
 
+    void turnY(boolean clockwise){
+        PVector coords = pos.getCoords();
+        PMatrix3D transMatrix = new PMatrix3D();
+        transMatrix.translate(coords.x, coords.y, coords.z);
+        transMatrix.rotateY(HALF_PI * (clockwise?1:-1));
+
+        //Update index
+        pos.turnY(clockwise);
+        //Update coords
+        pos.update(transMatrix.m03, coords.y, transMatrix.m23);
+        
+        //Fetch new coords
+        coords = pos.getCoords();
+
+        mat.reset();
+        mat.translate(coords.x, coords.y, coords.z);
+
+        color[] newColors = colors.clone();
+
+        //We update colors
+        if(clockwise){
+            newColors[Faces.FRONT] = colors[Faces.LEFT];
+            newColors[Faces.RIGHT] = colors[Faces.FRONT];
+            newColors[Faces.BACK] = colors[Faces.RIGHT];
+            newColors[Faces.LEFT] = colors[Faces.BACK];
+
+        } else {
+            newColors[Faces.LEFT] = colors[Faces.FRONT];
+            newColors[Faces.FRONT] = colors[Faces.RIGHT];
+            newColors[Faces.RIGHT] = colors[Faces.BACK];
+            newColors[Faces.BACK] = colors[Faces.LEFT];
+        }
+
+
+        colors = newColors;
+
+    }
     void show(){
         pushMatrix();
 
