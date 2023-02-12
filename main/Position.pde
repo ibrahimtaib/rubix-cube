@@ -3,11 +3,9 @@ class Position {
     private PVector coords;
     private float cubieSize;
     Position(int x, int y, int z, float size){
-        float offset = -size;
-
         cubieSize = size;
         cubieIndex = new PVector(x, y, z);
-        coords = new PVector(offset + size*x, offset + size*y, size*z);
+        coords = new PVector(size*x, size*y, size*z);
     }
 
     PVector getCoords() {
