@@ -6,7 +6,7 @@ class Rubix{
     private float cubiesSize;
     private int nbCubies;
     private float rubixCenter;
-    private Move move = new Move(this);
+    private Move move = null;
     private Queue<Move> moves = new LinkedList<Move>();
 
     float getCenter(){
@@ -68,6 +68,9 @@ class Rubix{
         {
             play(axis[round(random(2))], round(random(nbCubies)), bools[round(random(1))], 5);
         }
+    }
+    void cancelMoves() {
+        moves = new LinkedList<Move>();
     }
     void play(Axis axis, int index,  boolean clockwise){
         play(axis, index, clockwise, 25);

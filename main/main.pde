@@ -46,8 +46,11 @@ void keyPressed() {
     if (key == 'R'){
         rub = new Rubix(nbCubies, cubiesSize);
     }
-    if (key == BACKSPACE){
+    if (key == ENTER){
         rub.shuffle();
+    }
+    if (key == BACKSPACE){
+        rub.cancelMoves();
     }
 }
 
