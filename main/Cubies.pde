@@ -10,11 +10,13 @@ class Cubies{
     PMatrix3D mat;
     Position pos;
     float size;
+    int nbCubies;
 
     Cubies(int x, int y, int z, float size, int nbCubies, float offset)
     {
         this.mat = new PMatrix3D();
         this.pos = new Position(x, y, z, size, nbCubies, offset);
+        this.nbCubies = nbCubies;
         PVector coords = pos.getCoords();
         mat.translate(coords.x, coords.y, coords.z);
         this.size = size;
@@ -135,9 +137,10 @@ class Cubies{
         }
         colors = newColors;
     }
+
     void show(){
         pushMatrix();
-
+        color inside = 60;
         applyMatrix(mat);
 
         /* 
@@ -148,9 +151,10 @@ class Cubies{
         beginShape(QUADS);
 
         float r = size/2;
-        
+
         //Front 
         fill(colors[Faces.FRONT]);
+        if(getZIndex() != 0) {fill(inside);}
         vertex(-r, -r,  r);
         vertex(r, -r,   r);
         vertex(r, r,    r);
@@ -161,6 +165,7 @@ class Cubies{
         // vertex(0, size, 0);
 
         fill(colors[Faces.RIGHT]);
+        if(getXIndex() < nbCubies - 1) {fill(inside);}
         //Right
         vertex(r, -r,   r);
         vertex(r, -r, -r);
@@ -173,7 +178,7 @@ class Cubies{
         // vertex(size, size, 0);
 
         fill(colors[Faces.LEFT]);
-
+        if(getXIndex() > 0) {fill(inside);}
         //Left
         vertex(-r, -r, r);
         vertex(-r, -r, -r);
@@ -186,6 +191,7 @@ class Cubies{
         // vertex(0, size, 0);
 
         fill(colors[Faces.BACK]);
+        if(getZIndex() < nbCubies - 1) {fill(inside);}   
         //Back 
         vertex(-r, -r, -r);
         vertex(r, -r, -r);
@@ -197,6 +203,7 @@ class Cubies{
         // vertex(size, size, -size);
         // vertex(0, size, -size);
         fill(colors[Faces.UP]);
+        if(getYIndex() != 0) {fill(inside);}
         //Up
         vertex(-r, -r, r);
         vertex(-r, -r, -r);
@@ -209,6 +216,7 @@ class Cubies{
         // vertex(size, 0, 0);
 
         fill(colors[Faces.BOTTOM]);
+        if(getYIndex() < nbCubies - 1) {fill(inside);}
         //Bottom
         vertex(r, r, r);
         vertex(r, r, -r);
