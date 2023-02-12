@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.*;
 class Rubix{
     Cubies[] cubies;
     private float center;
@@ -5,6 +7,7 @@ class Rubix{
     private int nbCubies;
     private float rubixCenter;
     private Move move = new Move(this);
+    private Queue<Move> moves = new LinkedList<Move>();
 
     float getCenter(){
         return rubixCenter;
@@ -16,7 +19,7 @@ class Rubix{
         this.nbCubies = nbCubies;
         this.cubiesSize = cubiesSize;
         cubies = new Cubies[round(pow(nbCubies, nbCubies))];
-        rubixCenter = (nbCubies)/2*cubiesSize; //- cubiesSize/2*(1-nbCubies%2);
+        rubixCenter = (nbCubies)/2*cubiesSize - cubiesSize/2*(1-nbCubies%2);
         for (int i = 0; i < nbCubies; ++i) {
             for (int j = 0; j < nbCubies; ++j) {
                 for (int k = 0; k < nbCubies; ++k) {  
@@ -58,11 +61,41 @@ class Rubix{
             }
         }      
     }
+    void shuffle(){
+        Axis[] axis = {Axis.X, Axis.Y, Axis.Z};
+        boolean[] bools = {true, false};
+        for(int i = 0; i<100; i++)
+        {
+            play(axis[round(random(2))], round(random(nbCubies)), bools[round(random(1))], 5);
+        }
+    }
     void play(Axis axis, int index,  boolean clockwise){
-        move.play(axis, index, clockwise, 50);
+        play(axis, index, clockwise, 25);
+    }
+    void play(Axis axis, int index,  boolean clockwise, int speed){
+        Move m = new Move(this);
+        m.play(axis, index, clockwise, speed);
+
+        if(move != null && move.isPlaying())
+        {
+            moves.add(m);
+        } else{
+            move = m;
+        }
+    }
+    void updateMoves(){
+        if (move != null && move.isPlaying()){
+            move.update();
+            return;
+        }
+        if (moves.isEmpty()) {
+            return;
+        }
+
+        move = moves.poll();
     }
     void show() {
-        move.update();
+        updateMoves();
         for (int i = 0; i < nbCubies; ++i) {
             for (int j = 0; j < nbCubies; ++j) {
                 for (int k = 0; k < nbCubies; ++k) {
