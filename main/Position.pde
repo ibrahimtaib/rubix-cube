@@ -35,6 +35,20 @@ class Position {
 
         cubieIndex = new PVector(x, round(cubieIndex.y) , z);
     }
+
+    void turnX(boolean clockwise){
+        int y, z;
+        //Only update indexes
+        if(clockwise){
+            z = nbCubies - 1 - round(cubieIndex.y);
+            y = round(cubieIndex.z);
+        }else {
+            z = round(cubieIndex.y);
+            y = nbCubies - 1 - round(cubieIndex.z);
+        }
+
+        cubieIndex = new PVector(round(cubieIndex.x), y , z);
+    }
     PVector getCoords() {
         return coords.copy();
     }

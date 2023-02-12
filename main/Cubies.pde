@@ -95,6 +95,41 @@ class Cubies{
         colors = newColors;
 
     }
+    
+    void turnX(boolean clockwise){
+        PVector coords = pos.getCoords();
+        PMatrix3D transMatrix = new PMatrix3D();
+        transMatrix.rotateX(HALF_PI * (clockwise?1:-1));
+        transMatrix.translate(coords.x, coords.y, coords.z);
+
+        //Update index
+        pos.turnX(clockwise);
+        //Update coords
+        pos.update(coords.x, transMatrix.m13, transMatrix.m23);
+        
+        //Fetch new coords
+        coords = pos.getCoords();
+
+        mat.reset();
+        mat.translate(coords.x, coords.y, coords.z);
+
+        color[] newColors = colors.clone();
+
+        //We update colors
+        if(clockwise){
+            newColors[Faces.UP] = colors[Faces.FRONT];
+            newColors[Faces.FRONT] = colors[Faces.BOTTOM];
+            newColors[Faces.BOTTOM] = colors[Faces.BACK];
+            newColors[Faces.BACK] = colors[Faces.UP];
+
+        } else {
+            newColors[Faces.FRONT] = colors[Faces.UP];
+            newColors[Faces.BOTTOM] = colors[Faces.FRONT];
+            newColors[Faces.BACK] = colors[Faces.BOTTOM];
+            newColors[Faces.UP] = colors[Faces.BACK];
+        }
+        colors = newColors;
+    }
     void show(){
         pushMatrix();
 

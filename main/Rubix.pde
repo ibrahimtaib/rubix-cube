@@ -29,7 +29,9 @@ class Rubix{
 
                     switch (axis) {
                         case X:
-                            println("not yet implemented");
+                            if(qb.getXIndex() == index) {
+                                qb.turnX(clockwise);
+                            }                            
                             break;
                         case Y :
                             if(qb.getYIndex() == index) {
