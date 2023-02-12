@@ -11,10 +11,10 @@ class Cubies{
     Position pos;
     float size;
 
-    Cubies(int x, int y, int z, float size, int nbCubies)
+    Cubies(int x, int y, int z, float size, int nbCubies, float offset)
     {
         this.mat = new PMatrix3D();
-        this.pos = new Position(x, y, z, size, nbCubies);
+        this.pos = new Position(x, y, z, size, nbCubies, offset);
         PVector coords = pos.getCoords();
         mat.translate(coords.x, coords.y, coords.z);
         this.size = size;
@@ -23,14 +23,15 @@ class Cubies{
     void turnZ(boolean clockwise){
         PVector coords = pos.getCoords();
         PMatrix3D transMatrix = new PMatrix3D();
-        transMatrix.translate(coords.x, coords.y, coords.z);
+  
+        //We rotate relative to the center of the cube
         transMatrix.rotateZ(HALF_PI * (clockwise?1:-1));
+        transMatrix.translate(coords.x, coords.y, coords.z);
 
         //Update index
         pos.turnZ(clockwise);
         //Update coords
         pos.update(transMatrix.m03, transMatrix.m13, coords.z);
-        
         //Fetch new coords
         coords = pos.getCoords();
 
@@ -60,8 +61,8 @@ class Cubies{
     void turnY(boolean clockwise){
         PVector coords = pos.getCoords();
         PMatrix3D transMatrix = new PMatrix3D();
-        transMatrix.translate(coords.x, coords.y, coords.z);
         transMatrix.rotateY(HALF_PI * (clockwise?1:-1));
+        transMatrix.translate(coords.x, coords.y, coords.z);
 
         //Update index
         pos.turnY(clockwise);
@@ -122,6 +123,7 @@ class Cubies{
         vertex(r, r, 0);
 
         fill(colors[Faces.LEFT]);
+
         //Left
         vertex(-r, -r, 0);
         vertex(-r, -r, -2*r);
