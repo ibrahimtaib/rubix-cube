@@ -7,6 +7,7 @@ class Rubix{
     private int nbCubies;
     private float rubixCenter;
     private Move move = null;
+    private final int speed = 25;
     private Queue<Move> moves = new LinkedList<Move>();
 
     float getCenter(){
@@ -15,6 +16,8 @@ class Rubix{
     boolean isPlaying() {
         return move.isPlaying();
     }
+
+    int getSpeed() {return speed;}
     Rubix(int nbCubies, float cubiesSize){
         this.nbCubies = nbCubies;
         this.cubiesSize = cubiesSize;
@@ -66,16 +69,59 @@ class Rubix{
         boolean[] bools = {true, false};
         for(int i = 0; i<100; i++)
         {
-            play(axis[round(random(2))], round(random(nbCubies)), bools[round(random(1))], 5);
+            //We don't spin the middle layers to keep centerpieces oriented correctly
+            play(axis[round(random(2))], bools[round(random(1))]?0:2, bools[round(random(1))], 5);
         }
     }
     void cancelMoves() {
         moves = new LinkedList<Move>();
     }
-    void play(Axis axis, int index,  boolean clockwise){
-        play(axis, index, clockwise, 25);
+
+    Move Up(boolean clockwise, int speed) {
+        Move up = new Move(this); 
+        up.play(Axis.Y, 0, !clockwise, speed);
+        return up;
     }
-    void play(Axis axis, int index,  boolean clockwise, int speed){
+    Move Down(boolean clockwise, int speed) {
+        Move down = new Move(this); 
+        down.play(Axis.Y, 2, clockwise, speed);
+        return down;
+    }
+
+    Move Right(boolean clockwise, int speed) {
+        Move up = new Move(this); 
+        up.play(Axis.X, 2, clockwise, speed);
+        return up;
+    }
+    
+    Move Left(boolean clockwise, int speed) {
+        Move up = new Move(this); 
+        up.play(Axis.X, 0, !clockwise, speed);
+        return up;
+    }
+    
+    Move Front(boolean clockwise, int speed) {
+        Move up = new Move(this); 
+        up.play(Axis.Z, 0, clockwise, speed);
+        return up;
+    }
+    
+    Move Back(boolean clockwise, int speed) {
+        Move up = new Move(this); 
+        up.play(Axis.Z, 2, !clockwise, speed);
+        return up;
+    }
+    void play(Axis axis, int index,  boolean clockwise){
+        play(axis, index, clockwise, speed);
+    }
+    void add(Move move) {
+        if(move == null) {return;}
+        moves.add(move);
+    }
+    private void play(Axis axis, int index,  boolean clockwise, int speed){
+        //Get right clockwise turn
+        //for UP, LEFT, BACK
+        
         Move m = new Move(this);
         m.play(axis, index, clockwise, speed);
 
