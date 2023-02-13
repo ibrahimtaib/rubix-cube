@@ -18,24 +18,6 @@ void setup(){
 
     //rub.turnZ(2, true);
 }
-
-// void mousePressed(){
-//     if(mouseButton == LEFT)
-//     {
-//         clockwise = false;
-//    }
-// }
-// void mouseReleased() {
-//     if(mouseButton == LEFT)
-//     {
-//         clockwise = true;
-//     }
-// }
-void keyReleased() {
-    if( key == SHIFT){
-        clockwise = false;
-    }
-}
 void keyPressed() {
 
     if (key == 'F'){
@@ -57,13 +39,16 @@ void keyPressed() {
     if (key == 'R'){
         rub.add(rub.Right(clockwise, rub.getSpeed()));
     }
+    //Reset cube
     if (key == 'N'){
         rub = new Rubix(nbCubies, cubiesSize);
         clockwise = false;
     }
+    //Shuffle cube
     if (key == ENTER){
         rub.shuffle();
     }
+    //Cancel all moves waiting to be played
     if (key == BACKSPACE){
         rub.cancelMoves();
     }
